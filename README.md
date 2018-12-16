@@ -1,5 +1,5 @@
 # lncli-curses
-Terminal user interface for lnd lightning daemon written in go
+Terminal user interface for [lnd lightning daemon](https://github.com/lightningnetwork/lnd) written in go
 
 ## Features
 - Channels, peers, pending channels, payments, invoices, wallet transactions views
@@ -12,7 +12,8 @@ Terminal user interface for lnd lightning daemon written in go
 
 ### Prerequisites
 
-Working [golang](https://golang.org/) (1.10+) environment
+- [golang](https://golang.org/) (1.10+) environment
+- A working and unlocked lncli
 
 ### Building
 
@@ -50,6 +51,7 @@ Help Options:
 ```
 
 Navigation and actions are accessible through Alt+{shortcut key}
+Navigation in the forms is done with Tab, Alt+Tab
 
 ## Screenshots
 ![Add invoice](docs/sc_addinvoice.png)
