@@ -20,7 +20,6 @@ Terminal user interface for [lnd lightning daemon](https://github.com/lightningn
 ```
 $ go get github.com/lleny/lncli-curses
 $ cd $GOPATH/src/github.com/lleny/lncli-curses
-$ dep ensure
 $ make
 ```
 
