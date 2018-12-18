@@ -13,7 +13,7 @@ Terminal user interface for [lnd lightning daemon](https://github.com/lightningn
 ### Prerequisites
 
 - [golang](https://golang.org/) (1.10+) environment
-- A working and unlocked lncli
+- A working and unlocked [lncli](https://github.com/lightningnetwork/lnd) (0.5.1) 
 
 ### Building
 
