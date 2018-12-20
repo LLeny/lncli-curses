@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"strings"
 	"sync"
 	"time"
 
@@ -11,6 +12,7 @@ import (
 	"github.com/jessevdk/go-flags"
 	"github.com/jroimartin/gocui"
 	"github.com/lightningnetwork/lnd/lnrpc"
+	"github.com/spf13/viper"
 )
 
 type cliOpts struct {
@@ -90,6 +92,7 @@ func main() {
 	context.views = make(map[viewType]viewI)
 	context.cliMutex = &sync.Mutex{}
 
+	initConfig()
 	initTheme()
 	initGrids()
 
@@ -98,16 +101,38 @@ func main() {
 	switchActiveView(channelListViewt)
 }
 
+func getConfigString(key string) string {
+	return viper.GetString(key)
+}
+
+func getConfigInt(key string) int {
+	return viper.GetInt(key)
+}
+
+func getThemeBashColor(key string) string {
+	return strings.Replace(getConfigString(key), "[", "\x1b[", -1)
+}
+
+func initConfig() {
+	viper.SetConfigName("config")
+	viper.AddConfigPath("$HOME/.lncli-curses")
+	viper.AddConfigPath(".")
+	err := viper.ReadInConfig()
+	if err != nil {
+		panic(err)
+	}
+}
+
 func initTheme() {
-	context.theme.background = gocui.ColorBlack
-	context.theme.inverted = "\x1b[48;5;21m"
-	context.theme.highlight = "\x1b[38;5;75m\x1b[48;5;0m"
-	context.theme.error = "\x1b[1m\x1b[38;5;196m"
-	context.theme.labelHeader = "\x1b[38;5;15m\x1b[48;5;0m"
-	context.theme.normal = "\x1b[38;5;15m\x1b[48;5;0m"
-	context.theme.bold = "\x1b[1m"
-	context.theme.gridHeader = "\x1b[48;5;89m\x1b[38;5;15m"
-	context.theme.gridSelected = "\x1b[48;5;33m\x1b[38;5;15m"
+	context.theme.background = gocui.Attribute(getConfigInt("theme.background"))
+	context.theme.inverted = getThemeBashColor("theme.inverted")
+	context.theme.highlight = getThemeBashColor("theme.highlight")
+	context.theme.error = getThemeBashColor("theme.error")
+	context.theme.labelHeader = getThemeBashColor("theme.labelHeader")
+	context.theme.normal = getThemeBashColor("theme.normal")
+	context.theme.bold = getThemeBashColor("theme.bold")
+	context.theme.gridHeader = getThemeBashColor("theme.gridHeader")
+	context.theme.gridSelected = getThemeBashColor("theme.gridSelected")
 }
 
 func switchActiveView(view viewType) {

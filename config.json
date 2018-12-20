@@ -1,0 +1,14 @@
+{
+    "theme":
+    {
+        "background" :"1",
+        "inverted" : "[48;5;21m",
+        "highlight" : "[38;5;75m[48;5;0m",
+        "error" : "[1m[38;5;196m",
+        "labelHeader" : "[38;5;15m[48;5;0m",
+        "normal" : "[38;5;15m[48;5;0m",
+        "bold" : "[1m",
+        "gridHeader" : "[48;5;89m[38;5;15m",
+        "gridSelected" : "[48;5;33m[38;5;15m"
+    }
+}
