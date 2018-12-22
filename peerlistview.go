@@ -26,7 +26,7 @@ type disconnectPeer struct {
 func newpeerListView(physicalView string, fmtnormal string, fmtheader string, fmtselected string) *peerListView {
 	cv := new(peerListView)
 
-	cv.grid = &dataGrid{}
+	cv.grid = makeNewDataGrid()
 	cv.mappedToPhysicalView = physicalView
 
 	cv.init(fmtnormal, fmtheader, fmtselected)
@@ -46,15 +46,16 @@ func (cv *peerListView) init(fmtnormal string, fmtheader string, fmtselected str
 	cv.shortcuts = append(cv.shortcuts, &keyHandle{"Connect", "C", 'c', gocui.ModAlt, cv.connect, true, ""})
 	cv.shortcuts = append(cv.shortcuts, &keyHandle{"Disconnect", "D", 'd', gocui.ModAlt, cv.disconnect, true, ""})
 
-	cv.grid.header = "[Peers]"
-	cv.grid.addColumn("Alias", "Alias", 0, stringRow)
-	cv.grid.addColumn("Address", "Address", 22, stringRow)
-	cv.grid.addColumn("Bytes sent", "BytesSent", 13, intRow)
-	cv.grid.addColumn("Bytes rec.", "BytesRecv", 13, intRow)
-	cv.grid.addColumn("Sat sent", "SatSent", 12, intRow)
-	cv.grid.addColumn("Sat rec.", "SatRecv", 12, intRow)
-	cv.grid.addColumn("In", "Inbound", 2, boolRow)
-	cv.grid.addColumn("Ping", "PingTime", 6, intRow)
+	cv.grid.key = "peers"
+	cv.grid.addColumn("Alias", "Alias", stringRow)      // "Alias", 0
+	cv.grid.addColumn("Address", "Address", stringRow)  //"Address", 22
+	cv.grid.addColumn("BytesSent", "BytesSent", intRow) //"Bytes sent",13
+	cv.grid.addColumn("BytesRec", "BytesRecv", intRow)  //"Bytes rec.",13
+	cv.grid.addColumn("SatSent", "SatSent", intRow)     //"Sat sent", 12
+	cv.grid.addColumn("SatRec", "SatRecv", intRow)      //"Sat rec.", 12
+	cv.grid.addColumn("Inbound", "Inbound", boolRow)    //"Inbound",2
+	cv.grid.addColumn("Ping", "PingTime", intRow)       //"Ping",6
+	cv.grid.initConfig()
 }
 
 func (cv *peerListView) connect() {

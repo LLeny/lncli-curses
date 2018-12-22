@@ -25,7 +25,7 @@ type addInvoiceContainer struct {
 
 func newinvoiceListView(physicalView string, fmtnormal string, fmtheader string, fmtselected string) *invoiceListView {
 	cv := new(invoiceListView)
-	cv.grid = &dataGrid{}
+	cv.grid = makeNewDataGrid()
 	cv.mappedToPhysicalView = physicalView
 	cv.init(fmtnormal, fmtheader, fmtselected)
 	return cv
@@ -39,14 +39,15 @@ func (cv *invoiceListView) init(fmtnormal string, fmtheader string, fmtselected 
 	cv.shortcuts = append(cv.shortcuts, &keyHandle{"Scroll Down", "Down", gocui.KeyArrowDown, gocui.ModNone, func() { cv.grid.moveSelectionDown() }, false, ""})
 	cv.shortcuts = append(cv.shortcuts, &keyHandle{"Add invoice", "A", 'a', gocui.ModAlt, cv.addInvoice, true, ""})
 
-	cv.grid.header = "[Invoices]"
-	cv.grid.addColumn("Settled", "GetSettled", 2, boolRow)
-	cv.grid.addColumn("Memo", "GetMemo", 0, stringRow)
-	cv.grid.addColumn("Value", "GetValue", 16, intRow)
-	cv.grid.addColumn("Creation", "GetCreationDate", 18, dateRow)
-	cv.grid.addColumn("Settled", "GetSettledDate", 18, dateRow)
-	cv.grid.addColumn("Expiry(s)", "GetExpiry", 10, intRow)
-	cv.grid.addColumn("Paid mSat", "GetAmtPaidMsat", 16, intRow)
+	cv.grid.key = "invoices"
+	cv.grid.addColumn("Settled", "GetSettled", boolRow)       //"Settled", 2
+	cv.grid.addColumn("Memo", "GetMemo", stringRow)           //"Memo", 0
+	cv.grid.addColumn("Value", "GetValue", intRow)            //"Value", 16
+	cv.grid.addColumn("Creation", "GetCreationDate", dateRow) //"Creation",18
+	cv.grid.addColumn("Settled", "GetSettledDate", dateRow)   //"Settled", 18
+	cv.grid.addColumn("Expiry", "GetExpiry", intRow)          //"Expiry(s)", 10
+	cv.grid.addColumn("Paid", "GetAmtPaidMsat", intRow)       //"Paid mSat", 16
+	cv.grid.initConfig()
 }
 
 func (cv *invoiceListView) addInvoice() {

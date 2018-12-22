@@ -28,7 +28,7 @@ type payInvoiceContainer struct {
 // }
 func newpaymentListView(physicalView string, fmtnormal string, fmtheader string, fmtselected string) *paymentListView {
 	cv := new(paymentListView)
-	cv.grid = &dataGrid{}
+	cv.grid = makeNewDataGrid()
 	cv.mappedToPhysicalView = physicalView
 	cv.init(fmtnormal, fmtheader, fmtselected)
 	return cv
@@ -42,14 +42,16 @@ func (cv *paymentListView) init(fmtnormal string, fmtheader string, fmtselected 
 	cv.shortcuts = append(cv.shortcuts, &keyHandle{"Scroll Down", "Down", gocui.KeyArrowDown, gocui.ModNone, func() { cv.grid.moveSelectionDown() }, false, ""})
 	cv.shortcuts = append(cv.shortcuts, &keyHandle{"Pay Invoice", "P", 'p', gocui.ModAlt, cv.payInvoice, true, ""})
 
-	cv.grid.header = "[Payments]"
-	cv.grid.addColumn("Creation", "CreationDate", 18, dateRow)
-	cv.grid.addColumn("Hash", "PaymentHash", 0, stringRow)
-	cv.grid.addColumn("Value mSat", "ValueMsat", 16, intRow)
-	cv.grid.addColumn("Fee", "Fee", 16, intRow)
-	cv.grid.addColumn("Preimage", "PaymentPreimage", 6, stringRow)
-	cv.grid.addColumn("Path", "Path", 0, sliceRow)
+	cv.grid.key = "payments"
+	cv.grid.addColumn("Creation", "CreationDate", dateRow)      //"Creation",18
+	cv.grid.addColumn("Hash", "PaymentHash", stringRow)         //"Hash", 0
+	cv.grid.addColumn("Value", "ValueMsat", intRow)             //"Value mSat",16
+	cv.grid.addColumn("Fee", "Fee", intRow)                     //"Fee",16
+	cv.grid.addColumn("Preimage", "PaymentPreimage", stringRow) //"Preimage",6
+	cv.grid.addColumn("Path", "Path", sliceRow)                 //"Path",0
+	cv.grid.initConfig()
 }
+
 func (cv *paymentListView) payInvoice() {
 	cc := new(payInvoiceContainer)
 

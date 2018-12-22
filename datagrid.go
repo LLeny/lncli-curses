@@ -20,17 +20,23 @@ const (
 )
 
 type dataGridColumn struct {
-	header       string
 	propertyName string
-	width        int
 	displayWidth int
 	format       rowFormat
 }
 
+type dataGridColumnDisplay struct {
+	dataGridColumn
+	header string
+	width  int
+}
+
 type dataGrid struct {
+	key               string
 	header            string
 	items             interface{}
-	columns           []*dataGridColumn
+	availableColumns  map[string]*dataGridColumn
+	columns           []*dataGridColumnDisplay
 	visibleStartIndex int
 	visibleWidth      int
 	visibleHeight     int
@@ -38,6 +44,12 @@ type dataGrid struct {
 	fmtForeground     string
 	fmtHeader         string
 	fmtSelected       string
+}
+
+func makeNewDataGrid() *dataGrid {
+	g := new(dataGrid)
+	g.availableColumns = make(map[string]*dataGridColumn)
+	return g
 }
 
 func (dg *dataGrid) getSelectedItem() reflect.Value {
@@ -50,8 +62,27 @@ func (dg *dataGrid) setRenderSize(width int, height int) {
 	dg.balanceColumnsWidth()
 }
 
-func (dg *dataGrid) addColumn(header string, propertyName string, width int, format rowFormat) {
-	dg.columns = append(dg.columns, &dataGridColumn{header, propertyName, width, 0, format})
+func (dg *dataGrid) initConfig() {
+	dg.header = getConfigGridHeader(dg.key)
+	for _, col := range getConfigGridColumns(dg.key) {
+		dg.addDisplayColumn(col.key, col.header, col.width)
+	}
+}
+
+func (dg *dataGrid) addDisplayColumn(key string, header string, width int) {
+
+	c, ok := dg.availableColumns[key]
+
+	if !ok {
+		logError(fmt.Sprintf("Column '%s' not available", key))
+		return
+	}
+
+	dg.columns = append(dg.columns, &dataGridColumnDisplay{*c, header, width})
+}
+
+func (dg *dataGrid) addColumn(key string, propertyName string, format rowFormat) {
+	dg.availableColumns[key] = &dataGridColumn{propertyName, 0, format}
 }
 
 func (dg *dataGrid) balanceColumnsWidth() {
