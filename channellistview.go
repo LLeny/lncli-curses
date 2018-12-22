@@ -22,7 +22,7 @@ type closeChannelContainer struct {
 }
 
 type openChannelContainer struct {
-	NodeKey        string `displayname:"Node public key" length:"72" lines:"1"`
+	NodeKey        string `displayname:"Node public key" length:"40" lines:"2"`
 	Connect        string `displayname:"Host:port (opt)" length:"22"`
 	LocalAmt       int    `displayname:"Local amount" length:"12"`
 	PushAmt        int    `displayname:"Push amount" length:"12"`
@@ -38,7 +38,7 @@ type openChannelContainer struct {
 func newchannelListView(physicalView string, fmtnormal string, fmtheader string, fmtselected string) *channelListView {
 	cv := new(channelListView)
 
-	cv.grid = &dataGrid{}
+	cv.grid = makeNewDataGrid()
 	cv.mappedToPhysicalView = physicalView
 
 	cv.init(fmtnormal, fmtheader, fmtselected)
@@ -58,19 +58,20 @@ func (cv *channelListView) init(fmtnormal string, fmtheader string, fmtselected 
 	cv.shortcuts = append(cv.shortcuts, &keyHandle{"Close channel", "C", 'c', gocui.ModAlt, cv.closeChannel, true, ""})
 	cv.shortcuts = append(cv.shortcuts, &keyHandle{"Open channel", "O", 'o', gocui.ModAlt, cv.openChannel, true, ""})
 
-	cv.grid.header = "[Channels]"
-	cv.grid.addColumn("A", "Active", 2, boolRow)
-	cv.grid.addColumn("P", "Private", 2, boolRow)
-	cv.grid.addColumn("Node", "NodeAlias", 0, stringRow)
-	cv.grid.addColumn("Capacity", "Capacity", 13, intRow)
-	cv.grid.addColumn("Local", "LocalBalance", 13, intRow)
-	cv.grid.addColumn("Remote", "RemoteBalance", 13, intRow)
-	cv.grid.addColumn("Com. fee", "CommitFee", 9, intRow)
-	cv.grid.addColumn("Com. weight", "CommitWeight", 12, intRow)
-	cv.grid.addColumn("Fee/Kw", "FeePerKw", 7, intRow)
-	cv.grid.addColumn("Unsettled", "UnsettledBalance", 13, intRow)
-	cv.grid.addColumn("Tot. sent", "TotalSatoshisSent", 13, intRow)
-	cv.grid.addColumn("Tot. rec.", "TotalSatoshisReceived", 13, intRow)
+	cv.grid.key = "channels"
+	cv.grid.addColumn("Active", "Active", boolRow)               //Active, 2
+	cv.grid.addColumn("Private", "Private", boolRow)             //Private, 2
+	cv.grid.addColumn("Node", "NodeAlias", stringRow)            //Node, 0
+	cv.grid.addColumn("Capacity", "Capacity", intRow)            //Capacity, 13
+	cv.grid.addColumn("Local", "LocalBalance", intRow)           //Local, 13
+	cv.grid.addColumn("Remote", "RemoteBalance", intRow)         //Remote, 13
+	cv.grid.addColumn("ComFee", "CommitFee", intRow)             //Com. fee, 9
+	cv.grid.addColumn("ComWeight", "CommitWeight", intRow)       //Com. weight, 12
+	cv.grid.addColumn("FeeKw", "FeePerKw", intRow)               //Fee/Kw, 7
+	cv.grid.addColumn("Unsettled", "UnsettledBalance", intRow)   //Unsettled, 13
+	cv.grid.addColumn("TotSent", "TotalSatoshisSent", intRow)    //Tot. sent, 13
+	cv.grid.addColumn("TotRec", "TotalSatoshisReceived", intRow) //Tot. rec., 13
+	cv.grid.initConfig()
 }
 
 func (cv *channelListView) getSelectedChannel() *lncliChannel {

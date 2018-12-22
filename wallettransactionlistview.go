@@ -24,7 +24,7 @@ type walletNewAddressReponseContainer struct {
 func newwalletTransactionListView(physicalView string, fmtnormal string, fmtheader string, fmtselected string) *walletTransactionListView {
 	cv := new(walletTransactionListView)
 
-	cv.grid = &dataGrid{}
+	cv.grid = makeNewDataGrid()
 	cv.mappedToPhysicalView = physicalView
 
 	cv.init(fmtnormal, fmtheader, fmtselected)
@@ -43,15 +43,16 @@ func (cv *walletTransactionListView) init(fmtnormal string, fmtheader string, fm
 	cv.shortcuts = append(cv.shortcuts, &keyHandle{"Scroll Down", "Down", gocui.KeyArrowDown, gocui.ModNone, func() { cv.grid.moveSelectionDown() }, false, ""})
 	cv.shortcuts = append(cv.shortcuts, &keyHandle{"New address", "N", 'n', gocui.ModAlt, cv.newaddress, true, ""})
 
-	cv.grid.header = "[Wallet transactions]"
-	cv.grid.addColumn("Amount", "Amount", 12, intRow)
-	cv.grid.addColumn("Conf.", "NumConfirmations", 8, intRow)
-	cv.grid.addColumn("Block Height", "BlockHeight", 8, intRow)
-	cv.grid.addColumn("Fees", "TotalFees", 8, intRow)
-	cv.grid.addColumn("Timestamp", "TimeStamp", 18, dateRow)
-	cv.grid.addColumn("TxHash", "TxHash", 0, stringRow)
-	cv.grid.addColumn("BlockHash", "BlockHash", 0, stringRow)
-	cv.grid.addColumn("Dest.", "DestAddresses", 0, sliceRow)
+	cv.grid.key = "walletTransactions"
+	cv.grid.addColumn("Amount", "Amount", intRow)                  //"Amount",12
+	cv.grid.addColumn("Confirmations", "NumConfirmations", intRow) //"Conf.",8
+	cv.grid.addColumn("BlockHeight", "BlockHeight", intRow)        //"Bloc kHeight", 8
+	cv.grid.addColumn("Fees", "TotalFees", intRow)                 //"Fees",8
+	cv.grid.addColumn("Timestamp", "TimeStamp", dateRow)           //"Timestamp",18
+	cv.grid.addColumn("TxHash", "TxHash", stringRow)               //"Tx Hash", 0
+	cv.grid.addColumn("BlockHash", "BlockHash", stringRow)         //"Block Hash",0
+	cv.grid.addColumn("Destination", "DestAddresses", sliceRow)    //"Dest.",0
+	cv.grid.initConfig()
 }
 
 func (cv *walletTransactionListView) newaddress() {

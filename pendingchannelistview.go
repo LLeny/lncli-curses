@@ -58,7 +58,7 @@ type pendingWaitingOpenChannelDisplayContainer struct {
 func newpendingchannelListView(physicalView string, fmtnormal string, fmtheader string, fmtselected string) *pendingchannelListView {
 	cv := new(pendingchannelListView)
 
-	cv.grid = &dataGrid{}
+	cv.grid = makeNewDataGrid()
 	cv.mappedToPhysicalView = physicalView
 
 	cv.init(fmtnormal, fmtheader, fmtselected)
@@ -77,12 +77,13 @@ func (cv *pendingchannelListView) init(fmtnormal string, fmtheader string, fmtse
 	cv.shortcuts = append(cv.shortcuts, &keyHandle{"Scroll Down", "Down", gocui.KeyArrowDown, gocui.ModNone, func() { cv.grid.moveSelectionDown() }, false, ""})
 	cv.shortcuts = append(cv.shortcuts, &keyHandle{"Details channel", "D", 'd', gocui.ModAlt, cv.detailsChannel, true, ""})
 
-	cv.grid.header = "[Pending channels]"
-	cv.grid.addColumn("T", "GetType", 2, stringRow)
-	cv.grid.addColumn("Node", "NodeAlias", 0, stringRow)
-	cv.grid.addColumn("Capacity", "GetCapacity", 10, intRow)
-	cv.grid.addColumn("Local", "GetLocalBalance", 10, intRow)
-	cv.grid.addColumn("Remote", "GetRemoteBalance", 10, intRow)
+	cv.grid.key = "pendingChannels"
+	cv.grid.addColumn("Type", "GetType", stringRow)         //"Type",2
+	cv.grid.addColumn("Node", "NodeAlias", stringRow)       //"Node", 0
+	cv.grid.addColumn("Capacity", "GetCapacity", intRow)    //"Capacity", 10
+	cv.grid.addColumn("Local", "GetLocalBalance", intRow)   //"Local",10
+	cv.grid.addColumn("Remote", "GetRemoteBalance", intRow) //"Remote",10
+	cv.grid.initConfig()
 }
 
 func (cv *pendingchannelListView) detailsChannel() {

@@ -10,5 +10,90 @@
         "bold" : "[1m",
         "gridHeader" : "[48;5;89m[38;5;15m",
         "gridSelected" : "[48;5;33m[38;5;15m"
+    },
+    "grids" : 
+    {
+        "channels" :
+        {
+            "header" : "[Channels]",
+            "columns" : [
+                { "key": "Active", "header": "A", "width": 2 },
+                { "key": "Private", "header": "P", "width": 2 },
+                { "key": "Node", "header": "Node", "width": 0 },
+                { "key": "Capacity", "header": "Capacity", "width": 13 },
+                { "key": "Local", "header": "Local", "width": 13 },
+                { "key": "Remote", "header": "Remote", "width": 13 },
+                { "key": "ComFee", "header": "Com. fee", "width": 9 },
+                { "key": "ComWeight", "header": "Com. weight", "width": 12 },
+                { "key": "FeeKw", "header": "Fee/Kw", "width": 7 },
+                { "key": "Unsettled", "header": "Unsettled", "width": 13 },
+                { "key": "TotSent", "header": "Tot. sent", "width": 13 },
+                { "key": "TotRec", "header": "Tot. rec.", "width": 13 }
+            ]
+        },
+        "invoices" :
+        {
+            "header" : "[Invoices]",
+            "columns" : [
+                { "key": "Settled", "header": "S", "width": 2 },
+                { "key": "Memo", "header": "Memo", "width": 0 },
+                { "key": "Value", "header": "Value", "width": 16 },
+                { "key": "Creation", "header": "Created on", "width": 18 },
+                { "key": "Settled", "header": "Settled on", "width": 18 },
+                { "key": "Expiry", "header": "Expiry(s)", "width": 10 },
+                { "key": "Paid", "header": "Paid(mSat)", "width": 16 }
+            ]
+        },
+        "payments" :
+        {
+            "header" : "[Payments]",
+            "columns" : [
+                { "key": "Creation", "header": "Created on", "width": 18 },
+                { "key": "Hash", "header": "Hash", "width": 0 },
+                { "key": "Value", "header": "Value(mSat)", "width": 16 },
+                { "key": "Fee", "header": "Fee", "width": 16 },
+                { "key": "Preimage", "header": "Preimage", "width": 6 },
+                { "key": "Path", "header": "Path", "width": 0 }
+             ]
+        },
+        "peers" :
+        {
+            "header" : "[Peers]",
+            "columns" : [
+                { "key": "Alias", "header": "Alias", "width": 0 },
+                { "key": "Address", "header": "Address", "width": 22 },
+                { "key": "BytesSent", "header": "Bytes sent", "width": 13 },
+                { "key": "BytesRec", "header": "Bytes rec.", "width": 13 },
+                { "key": "SatSent", "header": "Sat sent", "width": 12 },
+                { "key": "SatRec", "header": "Sat rec.", "width": 12 },
+                { "key": "Inbound", "header": "In", "width": 2 },
+                { "key": "Ping", "header": "Ping", "width": 6 }
+            ]
+        },
+        "pendingChannels" :
+        {
+            "header" : "[Pending channels]",
+            "columns" : [
+                { "key": "Type", "header": "T", "width": 2 },
+                { "key": "Node", "header": "Node", "width": 0 },
+                { "key": "Capacity", "header": "Capacity", "width": 10 },
+                { "key": "Local", "header": "Local", "width": 10 },
+                { "key": "Remote", "header": "Remote", "width": 10 }
+            ]
+        },
+        "walletTransactions" :
+        {
+            "header" : "[Wallet transactions]",
+            "columns" : [
+                { "key": "Amount", "header": "Amount", "width": 12 },
+                { "key": "Confirmations", "header": "Conf.", "width": 8 },
+                { "key": "BlockHeight", "header": "Block height", "width": 8 },
+                { "key": "Fees", "header": "Fees", "width": 8 },
+                { "key": "Timestamp", "header": "Timestamp", "width": 18 },
+                { "key": "TxHash", "header": "TX hash", "width": 0 },
+                { "key": "BlockHash", "header": "Block hash", "width": 0 },
+                { "key": "Destination", "header": "Dest.", "width": 0 }
+            ]
+        }
     }
 }

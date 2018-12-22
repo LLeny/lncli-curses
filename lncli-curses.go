@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strings"
 	"sync"
 	"time"
 
@@ -12,7 +11,6 @@ import (
 	"github.com/jessevdk/go-flags"
 	"github.com/jroimartin/gocui"
 	"github.com/lightningnetwork/lnd/lnrpc"
-	"github.com/spf13/viper"
 )
 
 type cliOpts struct {
@@ -99,40 +97,6 @@ func main() {
 	setUpdateTicker()
 	initViews()
 	switchActiveView(channelListViewt)
-}
-
-func getConfigString(key string) string {
-	return viper.GetString(key)
-}
-
-func getConfigInt(key string) int {
-	return viper.GetInt(key)
-}
-
-func getThemeBashColor(key string) string {
-	return strings.Replace(getConfigString(key), "[", "\x1b[", -1)
-}
-
-func initConfig() {
-	viper.SetConfigName("config")
-	viper.AddConfigPath("$HOME/.lncli-curses")
-	viper.AddConfigPath(".")
-	err := viper.ReadInConfig()
-	if err != nil {
-		panic(err)
-	}
-}
-
-func initTheme() {
-	context.theme.background = gocui.Attribute(getConfigInt("theme.background"))
-	context.theme.inverted = getThemeBashColor("theme.inverted")
-	context.theme.highlight = getThemeBashColor("theme.highlight")
-	context.theme.error = getThemeBashColor("theme.error")
-	context.theme.labelHeader = getThemeBashColor("theme.labelHeader")
-	context.theme.normal = getThemeBashColor("theme.normal")
-	context.theme.bold = getThemeBashColor("theme.bold")
-	context.theme.gridHeader = getThemeBashColor("theme.gridHeader")
-	context.theme.gridSelected = getThemeBashColor("theme.gridSelected")
 }
 
 func switchActiveView(view viewType) {

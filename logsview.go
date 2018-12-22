@@ -30,7 +30,7 @@ type logListView struct {
 func newlogListView(physicalView string, fmtnormal string, fmtheader string, fmtselected string) *logListView {
 	cv := new(logListView)
 
-	cv.grid = &dataGrid{}
+	cv.grid = makeNewDataGrid()
 	cv.mappedToPhysicalView = physicalView
 
 	cv.init(fmtnormal, fmtheader, fmtselected)
@@ -49,9 +49,14 @@ func (cv *logListView) init(fmtnormal string, fmtheader string, fmtselected stri
 	cv.shortcuts = append(cv.shortcuts, &keyHandle{"Scroll Down", "Down", gocui.KeyArrowDown, gocui.ModNone, func() { cv.grid.moveSelectionDown() }, false, ""})
 
 	cv.grid.header = "[Logs]"
-	cv.grid.addColumn("Level", "Level", 6, stringRow)
-	cv.grid.addColumn("Timestamp", "Timestamp", 18, dateRow)
-	cv.grid.addColumn("Message", "Message", 0, stringRow)
+
+	cv.grid.addColumn("Level", "Level", stringRow)
+	cv.grid.addColumn("Timestamp", "Timestamp", dateRow)
+	cv.grid.addColumn("Message", "Message", stringRow)
+
+	cv.grid.addDisplayColumn("Level", "Level", 6)
+	cv.grid.addDisplayColumn("Timestamp", "Timestamp", 18)
+	cv.grid.addDisplayColumn("Message", "Message", 0)
 }
 
 func (cv *logListView) refreshView(g *gocui.Gui) {
