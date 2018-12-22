@@ -7,6 +7,7 @@ Terminal user interface for [lnd lightning daemon](https://github.com/lightningn
 - Connect, disconnect peers
 - Create, pay invoices
 - Create new wallet addresses
+- Theming
 
 ## Getting Started
 
@@ -50,11 +51,51 @@ Help Options:
   -h, --help             Show this help message
 ```
 
-Navigation and actions are accessible through Alt+{shortcut key}
-Navigation in the forms is done with Tab, Alt+Tab
+Navigation and actions are accessible through Alt+{shortcut key}, navigation in the forms is done with Tab, Alt+Tab
 
 ## Screenshots
 ![Add invoice](docs/sc_addinvoice.png)
+
+## Theming
+![Small gree theme](docs/sc_small.png)
+Colors can be modified through modification of the config.json file. Colors are using [terminal escape sequences](https://misc.flogisoft.com/bash/tip_colors_and_formatting) 
+```
+"theme":
+    {
+        "background" :"1",
+        "inverted" : "[48;5;21m",
+        "highlight" : "[38;5;75m[48;5;0m",
+        "error" : "[1m[38;5;196m",
+        "labelHeader" : "[38;5;15m[48;5;0m",
+        "normal" : "[38;5;15m[48;5;0m",
+        "bold" : "[1m",
+        "gridHeader" : "[48;5;89m[38;5;15m",
+        "gridSelected" : "[48;5;33m[38;5;15m"
+    },
+```
+
+Grid columns can also be renamed, removed, reordered, and adjusted in length through the same config.json file. A column with a width of 0 will use the available space equally shared between all the 0 width columns.
+```
+"channels" :
+        {
+            "header" : "[Channels]",
+            "shortcutHeader" : "Channels",
+            "columns" : [
+                { "key": "Active", "header": "A", "width": 2 },
+                { "key": "Private", "header": "P", "width": 2 },
+                { "key": "Node", "header": "Node", "width": 0 },
+                { "key": "Capacity", "header": "Capacity", "width": 13 },
+                { "key": "Local", "header": "Local", "width": 13 },
+                { "key": "Remote", "header": "Remote", "width": 13 },
+                { "key": "ComFee", "header": "Com. fee", "width": 9 },
+                { "key": "ComWeight", "header": "Com. weight", "width": 12 },
+                { "key": "FeeKw", "header": "Fee/Kw", "width": 7 },
+                { "key": "Unsettled", "header": "Unsettled", "width": 13 },
+                { "key": "TotSent", "header": "Tot. sent", "width": 13 },
+                { "key": "TotRec", "header": "Tot. rec.", "width": 13 }
+            ]
+        },
+```
 
 ## TO-DO
 - Stability improvement
