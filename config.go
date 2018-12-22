@@ -48,6 +48,10 @@ func getConfigGridColumns(gridKey string) []gridColumnConfig {
 	return ret
 }
 
+func getConfigGridShortcutHeader(gridKey string) string {
+	return viper.GetString("grids." + gridKey + ".shortcutHeader")
+}
+
 func getConfigGridHeader(gridKey string) string {
 	return viper.GetString("grids." + gridKey + ".header")
 }
