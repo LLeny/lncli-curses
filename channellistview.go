@@ -22,7 +22,7 @@ type closeChannelContainer struct {
 }
 
 type openChannelContainer struct {
-	NodeKey        string `displayname:"Node public key" length:"72" lines:"1"`
+	NodeKey        string `displayname:"Node public key" length:"40" lines:"2"`
 	Connect        string `displayname:"Host:port (opt)" length:"22"`
 	LocalAmt       int    `displayname:"Local amount" length:"12"`
 	PushAmt        int    `displayname:"Push amount" length:"12"`

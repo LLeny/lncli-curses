@@ -13,7 +13,7 @@ type peerListView struct {
 }
 
 type connectPeer struct {
-	PubKey string `displayname:"Pub key" length:"64"`
+	PubKey string `displayname:"Pub key" length:"40" lines:"2"`
 	Host   string `displayname:"Host" length:"16"`
 	Port   int    `displayname:"Port" length:"5"`
 }
