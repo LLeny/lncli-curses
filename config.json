@@ -16,6 +16,7 @@
         "channels" :
         {
             "header" : "[Channels]",
+            "shortcutHeader" : "Channels",
             "columns" : [
                 { "key": "Active", "header": "A", "width": 2 },
                 { "key": "Private", "header": "P", "width": 2 },
@@ -34,6 +35,7 @@
         "invoices" :
         {
             "header" : "[Invoices]",
+            "shortcutHeader" : "Invoices",
             "columns" : [
                 { "key": "Settled", "header": "S", "width": 2 },
                 { "key": "Memo", "header": "Memo", "width": 0 },
@@ -47,6 +49,7 @@
         "payments" :
         {
             "header" : "[Payments]",
+            "shortcutHeader" : "Payments",
             "columns" : [
                 { "key": "Creation", "header": "Created on", "width": 18 },
                 { "key": "Hash", "header": "Hash", "width": 0 },
@@ -59,6 +62,7 @@
         "peers" :
         {
             "header" : "[Peers]",
+            "shortcutHeader" : "Peers",
             "columns" : [
                 { "key": "Alias", "header": "Alias", "width": 0 },
                 { "key": "Address", "header": "Address", "width": 22 },
@@ -73,6 +77,7 @@
         "pendingChannels" :
         {
             "header" : "[Pending channels]",
+            "shortcutHeader" : "Pending Channels",
             "columns" : [
                 { "key": "Type", "header": "T", "width": 2 },
                 { "key": "Node", "header": "Node", "width": 0 },
@@ -84,6 +89,7 @@
         "walletTransactions" :
         {
             "header" : "[Wallet transactions]",
+            "shortcutHeader" : "Wallet Txs",
             "columns" : [
                 { "key": "Amount", "header": "Amount", "width": 12 },
                 { "key": "Confirmations", "header": "Conf.", "width": 8 },

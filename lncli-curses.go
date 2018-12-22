@@ -118,32 +118,32 @@ func initGrids() {
 
 func initChannelListGrid() {
 	context.views[channelListViewt] = newchannelListView("main", context.theme.normal, context.theme.gridHeader, context.theme.gridSelected)
-	context.globalShortcuts = append(context.globalShortcuts, &keyHandle{"Channels", "1", '1', gocui.ModAlt, func() { switchActiveView(channelListViewt) }, true, ""})
+	context.globalShortcuts = append(context.globalShortcuts, &keyHandle{getConfigGridShortcutHeader("channels"), "1", '1', gocui.ModAlt, func() { switchActiveView(channelListViewt) }, true, ""})
 }
 
 func initPeerListGrid() {
 	context.views[peerListViewt] = newpeerListView("main", context.theme.normal, context.theme.gridHeader, context.theme.gridSelected)
-	context.globalShortcuts = append(context.globalShortcuts, &keyHandle{"Peers", "2", '2', gocui.ModAlt, func() { switchActiveView(peerListViewt) }, true, ""})
+	context.globalShortcuts = append(context.globalShortcuts, &keyHandle{getConfigGridShortcutHeader("peers"), "2", '2', gocui.ModAlt, func() { switchActiveView(peerListViewt) }, true, ""})
 }
 
 func initPendingChannelListGrid() {
 	context.views[pendingChannelListViewt] = newpendingchannelListView("main", context.theme.normal, context.theme.gridHeader, context.theme.gridSelected)
-	context.globalShortcuts = append(context.globalShortcuts, &keyHandle{"Pending chnls", "3", '3', gocui.ModAlt, func() { switchActiveView(pendingChannelListViewt) }, true, ""})
+	context.globalShortcuts = append(context.globalShortcuts, &keyHandle{getConfigGridShortcutHeader("pendingChannels"), "3", '3', gocui.ModAlt, func() { switchActiveView(pendingChannelListViewt) }, true, ""})
 }
 
 func initPaymentListGrid() {
 	context.views[paymentListViewt] = newpaymentListView("main", context.theme.normal, context.theme.gridHeader, context.theme.gridSelected)
-	context.globalShortcuts = append(context.globalShortcuts, &keyHandle{"Payments", "4", '4', gocui.ModAlt, func() { switchActiveView(paymentListViewt) }, true, ""})
+	context.globalShortcuts = append(context.globalShortcuts, &keyHandle{getConfigGridShortcutHeader("payments"), "4", '4', gocui.ModAlt, func() { switchActiveView(paymentListViewt) }, true, ""})
 }
 
 func initInvoiceListGrid() {
 	context.views[invoiceListViewt] = newinvoiceListView("main", context.theme.normal, context.theme.gridHeader, context.theme.gridSelected)
-	context.globalShortcuts = append(context.globalShortcuts, &keyHandle{"Invoices", "5", '5', gocui.ModAlt, func() { switchActiveView(invoiceListViewt) }, true, ""})
+	context.globalShortcuts = append(context.globalShortcuts, &keyHandle{getConfigGridShortcutHeader("invoices"), "5", '5', gocui.ModAlt, func() { switchActiveView(invoiceListViewt) }, true, ""})
 }
 
 func initWalletTransactionListGrid() {
 	context.views[walletTransactionsViewt] = newwalletTransactionListView("main", context.theme.normal, context.theme.gridHeader, context.theme.gridSelected)
-	context.globalShortcuts = append(context.globalShortcuts, &keyHandle{"Wallet txs", "6", '6', gocui.ModAlt, func() { switchActiveView(walletTransactionsViewt) }, true, ""})
+	context.globalShortcuts = append(context.globalShortcuts, &keyHandle{getConfigGridShortcutHeader("walletTransactions"), "6", '6', gocui.ModAlt, func() { switchActiveView(walletTransactionsViewt) }, true, ""})
 }
 
 func initLogListGrid() {
