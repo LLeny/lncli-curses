@@ -419,6 +419,23 @@ type formEdit struct {
 	cancel              *buttonEdit
 	callback            func(valid bool)
 	toMap               interface{}
+	minWidth            int
+	minHeight           int
+}
+
+func newFormEditWithSize(name string, title string, toMap interface{}, width int, height int) *formEdit {
+	f := new(formEdit)
+	f.setName(name)
+	f.selectedEditorIndex = 0
+	f.title = fmt.Sprintf(" %s ", title)
+	f.setShowLabel(false)
+	f.ok = newButtonEdit(name+"bok", "OK")
+	f.cancel = newButtonEdit(name+"bcancel", "Cancel")
+	f.toMap = toMap
+	f.minWidth = width
+	f.minHeight = height
+	f.fromStruct(toMap)
+	return f
 }
 
 func newFormEdit(name string, title string, toMap interface{}) *formEdit {
@@ -430,6 +447,8 @@ func newFormEdit(name string, title string, toMap interface{}) *formEdit {
 	f.ok = newButtonEdit(name+"bok", "OK")
 	f.cancel = newButtonEdit(name+"bcancel", "Cancel")
 	f.toMap = toMap
+	f.minWidth = -1
+	f.minHeight = -1
 	f.fromStruct(toMap)
 	return f
 }
@@ -456,6 +475,18 @@ func (f *formEdit) fromStruct(toMap interface{}) {
 	}
 }
 
+func (f *formEdit) getWidth(fieldWidth int, err error) int {
+	if f.minWidth >= 0 {
+		if err != nil {
+			return f.minWidth
+		}
+		if f.minWidth > fieldWidth {
+			return f.minWidth
+		}
+	}
+	return fieldWidth
+}
+
 func (f *formEdit) boolEditor(v reflect.StructField, def bool) {
 	displayName := v.Tag.Get("displayname")
 	e := newBoolEdit(v.Name, displayName, def)
@@ -464,7 +495,7 @@ func (f *formEdit) boolEditor(v reflect.StructField, def bool) {
 
 func (f *formEdit) intEditor(v reflect.StructField, def int64) {
 	displayName := v.Tag.Get("displayname")
-	length, _ := strconv.Atoi(v.Tag.Get("length"))
+	length := f.getWidth(strconv.Atoi(v.Tag.Get("length")))
 	e := newIntEdit(v.Name, displayName, length, def)
 	f.addEditor(e)
 }
@@ -473,10 +504,13 @@ func (f *formEdit) stringEditor(v reflect.StructField, def string) {
 	displayName := v.Tag.Get("displayname")
 	readonly, hasreadonly := v.Tag.Lookup("readonly")
 	lines, haslines := v.Tag.Lookup("lines")
-	length, _ := strconv.Atoi(v.Tag.Get("length"))
+	length := f.getWidth(strconv.Atoi(v.Tag.Get("length")))
 	l := 1
 	if haslines {
 		l, _ = strconv.Atoi(lines)
+		if f.minHeight > 0 && l < f.minHeight {
+			l = f.minHeight
+		}
 	}
 	e := newTextEdit(v.Name, displayName, length, hasreadonly && readonly == "1", def, l)
 	f.addEditor(e)
@@ -710,6 +744,24 @@ func (f *formEdit) close(g *gocui.Gui) {
 
 type displayMessageContainer struct {
 	Message string `displayname:"" length:"48" lines:"8" readonly:"1"`
+}
+
+func displayMessageWithSize(msg string, closed func(bool), width int, height int) {
+
+	tmp := displayMessageContainer{msg}
+
+	form := newFormEditWithSize("displayForm", "Information", &tmp, width, height)
+
+	form.callback = func(valid bool) {
+		form.close(context.gocui)
+		form = nil
+		if closed != nil {
+			closed(valid)
+		}
+	}
+
+	form.switchActiveEditor(-1, context.gocui)
+	form.initialize(context.gocui)
 }
 
 func displayMessage(msg string, closed func(bool)) {
