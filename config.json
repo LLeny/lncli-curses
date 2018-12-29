@@ -38,6 +38,7 @@
             "shortcutHeader" : "Invoices",
             "columns" : [
                 { "key": "Settled", "header": "S", "width": 2 },
+                { "key": "Private", "header": "P", "width": 2 },
                 { "key": "Memo", "header": "Memo", "width": 0 },
                 { "key": "Value", "header": "Value", "width": 16 },
                 { "key": "Creation", "header": "Created on", "width": 18 },
