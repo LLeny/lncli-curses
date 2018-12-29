@@ -64,7 +64,7 @@ func (cv *invoiceListView) addInvoice() {
 				logError(err.Error())
 				displayMessage("Error: "+err.Error(), nil)
 			} else {
-				displayMessage("Payment request: "+val, nil)
+				displayMessageWithSize(val+"\n"+getQRString(val), nil, 53, 32)
 			}
 			updateData()
 		}

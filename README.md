@@ -55,6 +55,9 @@ Navigation and actions are accessible through Alt+{shortcut key}, navigation in 
 ## Screenshots
 ![Add invoice](docs/sc_addinvoice.png)
 
+QR Code for new address and invoice
+![New address](docs/sc_qrnewaddress.png)
+
 ## Theming
 ![Small gree theme](docs/sc_small.png)
 Colors can be modified through modification of the config.json file. Colors are using [terminal escape sequences](https://misc.flogisoft.com/bash/tip_colors_and_formatting) 
