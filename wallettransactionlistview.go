@@ -19,6 +19,7 @@ type walletNewAddressRequestContainer struct {
 type walletNewAddressReponseContainer struct {
 	AdressType string `displayname:"Address type" length:"6" readonly:"1"`
 	Adress     string `displayname:"Address" length:"50" readonly:"1"`
+	AdressQR   string `displayname:"QRCode" length:"50" readonly:"1" lines:"16"`
 }
 
 func newwalletTransactionListView(physicalView string, fmtnormal string, fmtheader string, fmtselected string) *walletTransactionListView {
@@ -92,6 +93,7 @@ func (cv *walletTransactionListView) displayAddress(at string, a string) {
 
 	cr.AdressType = at
 	cr.Adress = a
+	cr.AdressQR = "\n" + getQRString(a)
 
 	cv.form = newFormEdit("walletnewaddressresp", "New adress", cr)
 
