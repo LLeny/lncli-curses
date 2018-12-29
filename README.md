@@ -108,6 +108,9 @@ Grid columns can also be renamed, removed, reordered, and adjusted in length thr
 
 ## Acknowledgements
  - [GOCUI](https://github.com/jroimartin/gocui) - Go Console User Interface
+ - [viper](https://github.com/spf13/viper) - Go configuration with fangs 
+ - [go-flags](https://github.com/jessevdk/go-flags) - Go command line option parser
+ - [go-qrcode](https://github.com/skip2/go-qrcode) - Go QR Code encoder
 
 ## License
 
