@@ -425,7 +425,13 @@ func (s *lncliStatus) closeChannel(ctxt *lnclicursesContext, channel *lncliChann
 		return "", err
 	}
 
-	return getAttributeStr(out, "closing_txid")
+	cid, err := getAttributeStr(out, "closing_txid")
+
+	if err != nil {
+		return "", err
+	}
+
+	return cid.(string), nil
 }
 
 func (s *lncliStatus) connectToPeer(ctxt *lnclicursesContext, pubkey string, host string, port int) (string, error) {
@@ -630,11 +636,17 @@ func (s *lncliStatus) openChannel(ctxt *lnclicursesContext, nk string, cct strin
 		return "", err
 	}
 
-	return getAttributeStr(out, "funding_txid")
+	fid, err := getAttributeStr(out, "funding_txid")
+
+	if err != nil {
+		return "", err
+	}
+
+	return fid.(string), nil
 }
 
-func getAttributeStr(in []byte, attributeName string) (string, error) {
-	var attrs map[string]string
+func getAttributeStr(in []byte, attributeName string) (interface{}, error) {
+	var attrs map[string]interface{}
 	if err := json.Unmarshal(in, &attrs); err != nil {
 		return "", err
 	}
@@ -694,5 +706,11 @@ func (s *lncliStatus) addInvoice(ctxt *lnclicursesContext, amt int, deshash stri
 		return "", err
 	}
 
-	return getAttributeStr(out, "pay_req")
+	preq, err := getAttributeStr(out, "pay_req")
+
+	if err != nil {
+		return "", err
+	}
+
+	return preq.(string), nil
 }
