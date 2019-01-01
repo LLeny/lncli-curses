@@ -415,7 +415,9 @@ func (s *lncliStatus) updatePendingChannelList(ctxt *lnclicursesContext) error {
 
 func (s *lncliStatus) closeChannel(ctxt *lnclicursesContext, channel *lncliChannel, force bool) (string, error) {
 	cp := strings.Split(channel.ChannelPoint, ":")
-	cm := "closechannel " + cp[0]
+	//--funding_txid value  the txid of the channel's funding transaction
+	//--output_index value  the output index for the funding output of the funding transaction (default: 0)
+	cm := "closechannel --funding_txid " + cp[0] + " --output_index " + cp[1]
 	if force {
 		cm = cm + " --force"
 	}
