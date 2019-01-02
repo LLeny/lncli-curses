@@ -224,7 +224,7 @@ func layout(g *gocui.Gui) error {
 
 	maxX, maxY := g.Size()
 
-	if v, err := g.SetView("nodeinfo", 0, 0, maxX-36, headerHeight); err != nil {
+	if v, err := g.SetView("nodeinfo", -1, -1, maxX-36, headerHeight); err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
@@ -234,7 +234,7 @@ func layout(g *gocui.Gui) error {
 	}
 	refreshNodeInfoView(g)
 
-	if v, err := g.SetView("balance", maxX-37, 0, maxX-1, headerHeight); err != nil {
+	if v, err := g.SetView("balance", maxX-37, -1, maxX, headerHeight); err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
@@ -244,7 +244,7 @@ func layout(g *gocui.Gui) error {
 	}
 	refreshWalletBalanceView(g)
 
-	if v, err := g.SetView("main", 0, headerHeight-1, maxX-1, maxY-1); err != nil {
+	if v, err := g.SetView("main", -1, headerHeight-2, maxX, maxY-1); err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
@@ -254,7 +254,7 @@ func layout(g *gocui.Gui) error {
 	}
 	refreshMainView(g)
 
-	if v, err := g.SetView("menu", 0, maxY-2, maxX-1, maxY); err != nil {
+	if v, err := g.SetView("menu", -1, maxY-2, maxX, maxY); err != nil {
 		if err != gocui.ErrUnknownView {
 			return err
 		}
