@@ -151,26 +151,26 @@ func (ctxt *lnclicursesContext) getlncliArgs() []string {
 
 	args = nil
 
-	if len(ctxt.opts.WorkDir) > 0 {
-		args = append(args, "--lnddir="+ctxt.opts.WorkDir)
+	if len(getLndDir()) > 0 {
+		args = append(args, "--lnddir="+getLndDir())
 	}
-	if len(ctxt.opts.RPCServer) > 0 {
-		args = append(args, "--rpcserver="+ctxt.opts.RPCServer)
+	if len(getRPCServer()) > 0 {
+		args = append(args, "--rpcserver="+getRPCServer())
 	}
-	if len(ctxt.opts.TLSCertPath) > 0 {
-		args = append(args, "--tlscertpath="+ctxt.opts.TLSCertPath)
+	if len(getTLSCertPath()) > 0 {
+		args = append(args, "--tlscertpath="+getTLSCertPath())
 	}
-	if ctxt.opts.NoMacaroons {
+	if getNoMacaroons() {
 		args = append(args, "--no-macaroons")
 	}
-	if len(ctxt.opts.MacaroonPath) > 0 {
-		args = append(args, "--macaroonpath="+ctxt.opts.MacaroonPath)
+	if len(getMacaroonPath()) > 0 {
+		args = append(args, "--macaroonpath="+getMacaroonPath())
 	}
-	if ctxt.opts.MacaroonTimeOut > 0 {
-		args = append(args, fmt.Sprintf("--macaroontimeout=%d", ctxt.opts.MacaroonTimeOut))
+	if getMacaroonTimeOut() > 0 {
+		args = append(args, fmt.Sprintf("--macaroontimeout=%d", getMacaroonTimeOut()))
 	}
-	if len(ctxt.opts.MacaroonIP) > 0 {
-		args = append(args, "--macaroonip="+ctxt.opts.MacaroonIP)
+	if len(getMacaroonIP()) > 0 {
+		args = append(args, "--macaroonip="+getMacaroonIP())
 	}
 
 	return args
@@ -181,7 +181,7 @@ func (ctxt *lnclicursesContext) execlncliCommand(command string) ([]byte, error)
 	args := ctxt.getlncliArgs()
 	args = append(args, strings.Split(command, " ")...)
 
-	cmd := exec.Command(ctxt.opts.LncliExec)
+	cmd := exec.Command(getLncliExec())
 	cmd.Args = args
 
 	ctxt.cliMutex.Lock()
@@ -488,7 +488,7 @@ func (s *lncliStatus) payInvoice(ctxt *lnclicursesContext, payReq string, amt in
 	var args []string
 	args = nil
 
-	args = append(args, ctxt.opts.LncliExec)
+	args = append(args, getLncliExec())
 	args = append(args, ctxt.getlncliArgs()...)
 	args = append(args, "payinvoice")
 

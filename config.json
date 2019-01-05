@@ -1,5 +1,16 @@
 {
     "showheader": true,
+
+	"LncliExec": "lncli",
+	"RefreshSec": 60,
+	"RPCServer": "",
+	"LndDir": "",
+	"TLSCertPath": "",
+	"NoMacaroons": false,
+	"MacaroonPath": "",
+	"MacaroonTimeOut": 0,
+	"MacaroonIP": "",
+
     "theme":
     {
         "background" :"1",
