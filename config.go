@@ -8,10 +8,18 @@ import (
 	"github.com/spf13/viper"
 )
 
+var (
+	showHeader bool
+)
+
 type gridColumnConfig struct {
 	key    string
 	header string
 	width  int
+}
+
+func getShowHeader() bool {
+	return showHeader
 }
 
 func getConfigString(key string) string {
@@ -64,6 +72,11 @@ func initConfig() {
 	if err != nil {
 		panic(err)
 	}
+	initBaseConfig()
+}
+
+func initBaseConfig() {
+	showHeader = viper.GetBool("showheader")
 }
 
 func initTheme() {

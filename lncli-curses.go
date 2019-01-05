@@ -8,7 +8,7 @@ import (
 	"golang.org/x/text/language"
 	"golang.org/x/text/message"
 
-	"github.com/jessevdk/go-flags"
+	flags "github.com/jessevdk/go-flags"
 	"github.com/jroimartin/gocui"
 	"github.com/lightningnetwork/lnd/lnrpc"
 )
@@ -57,8 +57,10 @@ func setUpdateTicker() {
 }
 
 func updateData() {
-	manageError(status.updateLocalNodeInfo(&context))
-	manageError(status.updateWalletBalance(&context))
+	if getShowHeader() {
+		manageError(status.updateLocalNodeInfo(&context))
+		manageError(status.updateWalletBalance(&context))
+	}
 	switch context.activeMainView {
 	case channelListViewt:
 		manageError(status.updateChannelList(&context))
