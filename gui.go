@@ -54,8 +54,6 @@ type keyHandle struct {
 	view      string
 }
 
-const headerHeight = 7
-
 func initViews() {
 
 	g, err := gocui.NewGui(gocui.Output256)
@@ -117,9 +115,10 @@ func quit(g *gocui.Gui, v *gocui.View) error {
 
 func refreshView() {
 	context.gocui.Update(func(g *gocui.Gui) error {
-
-		refreshNodeInfoView(g)
-		refreshWalletBalanceView(g)
+		if getShowHeader() {
+			refreshNodeInfoView(g)
+			refreshWalletBalanceView(g)
+		}
 		refreshMainView(g)
 		refreshMenuView(g)
 
@@ -224,25 +223,32 @@ func layout(g *gocui.Gui) error {
 
 	maxX, maxY := g.Size()
 
-	if v, err := g.SetView("nodeinfo", -1, -1, maxX-36, headerHeight); err != nil {
-		if err != gocui.ErrUnknownView {
-			return err
-		}
-		v.Editable = false
-		v.Frame = false
-		v.BgColor = context.theme.background
-	}
-	refreshNodeInfoView(g)
+	headerHeight := 1
 
-	if v, err := g.SetView("balance", maxX-37, -1, maxX, headerHeight); err != nil {
-		if err != gocui.ErrUnknownView {
-			return err
+	if getShowHeader() {
+
+		headerHeight = 7
+
+		if v, err := g.SetView("nodeinfo", -1, -1, maxX-36, headerHeight); err != nil {
+			if err != gocui.ErrUnknownView {
+				return err
+			}
+			v.Editable = false
+			v.Frame = false
+			v.BgColor = context.theme.background
 		}
-		v.Editable = false
-		v.Frame = false
-		v.BgColor = context.theme.background
+		refreshNodeInfoView(g)
+
+		if v, err := g.SetView("balance", maxX-37, -1, maxX, headerHeight); err != nil {
+			if err != gocui.ErrUnknownView {
+				return err
+			}
+			v.Editable = false
+			v.Frame = false
+			v.BgColor = context.theme.background
+		}
+		refreshWalletBalanceView(g)
 	}
-	refreshWalletBalanceView(g)
 
 	if v, err := g.SetView("main", -1, headerHeight-2, maxX, maxY-1); err != nil {
 		if err != gocui.ErrUnknownView {
