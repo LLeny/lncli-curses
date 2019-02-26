@@ -82,6 +82,7 @@ type lncliPendingChannelsContainer struct {
 type lncliChannel struct {
 	lnrpc.Channel
 	NodeAlias string
+	NodeUpdate int
 }
 
 type lncliPeer struct {
@@ -117,6 +118,15 @@ func (c *lncliChannel) updateNodeAlias(ctxt *lnclicursesContext, stat *lncliStat
 		return err
 	}
 	c.NodeAlias = ni.Node.Alias
+	return nil
+}
+
+func (c *lncliChannel) updateNodeUpdate(ctxt *lnclicursesContext, stat *lncliStatus) error {
+	ni, err := stat.getNodeInfo(ctxt, c.GetRemotePubkey())
+	if err != nil {
+		return err
+	}
+	c.NodeUpdate = int(ni.Node.LastUpdate)
 	return nil
 }
 
@@ -318,10 +328,14 @@ func (s *lncliStatus) updateChannelList(ctxt *lnclicursesContext) error {
 	s.channels = nil
 
 	for _, c := range chans.Channels {
-		nc := lncliChannel{*c, ""}
+		nc := lncliChannel{*c, "", 0}
 		s.channels = append(s.channels, &nc)
 		go func() {
 			err := nc.updateNodeAlias(ctxt, s)
+			if err != nil {
+				logError(err.Error())
+			}
+			err = nc.updateNodeUpdate(ctxt, s)
 			if err != nil {
 				logError(err.Error())
 			}

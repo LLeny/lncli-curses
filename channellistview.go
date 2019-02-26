@@ -62,6 +62,7 @@ func (cv *channelListView) init(fmtnormal string, fmtheader string, fmtselected 
 	cv.grid.addColumn("Active", "Active", boolRow)               //Active, 2
 	cv.grid.addColumn("Private", "Private", boolRow)             //Private, 2
 	cv.grid.addColumn("Node", "NodeAlias", stringRow)            //Node, 0
+	cv.grid.addColumn("NodeUpdate", "NodeUpdate", dateRow)       //NodeUpdate, 18
 	cv.grid.addColumn("Capacity", "Capacity", intRow)            //Capacity, 13
 	cv.grid.addColumn("Local", "LocalBalance", intRow)           //Local, 13
 	cv.grid.addColumn("Remote", "RemoteBalance", intRow)         //Remote, 13
