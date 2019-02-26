@@ -1,29 +1,15 @@
 package main
 
 import (
-	"fmt"
 	"sync"
 	"time"
 
 	"golang.org/x/text/language"
 	"golang.org/x/text/message"
 
-	"github.com/jessevdk/go-flags"
 	"github.com/jroimartin/gocui"
 	"github.com/lightningnetwork/lnd/lnrpc"
 )
-
-type cliOpts struct {
-	LncliExec       string `short:"l" long:"lnclicmd" description:"lncli executable" default:"lncli"`
-	RefreshSec      int    `short:"r" long:"refresh" description:"lncli data refresh time in seconds" default:"60"`
-	RPCServer       string `long:"rpcserver" description:"host:port of ln daemon"`
-	WorkDir         string `long:"lnddir" description:"path to lnd's base directory"`
-	TLSCertPath     string `long:"tlscertpath" description:"path to TLS certificate"`
-	NoMacaroons     bool   `long:"no-macaroons" description:"disable macaroon authentication"`
-	MacaroonPath    string `long:"macaroonpath" description:"path to macaroon file"`
-	MacaroonTimeOut int    `long:"macaroontimeout" description:"anti-replay macaroon validity time in seconds"`
-	MacaroonIP      string `long:"macaroonip" description:"if set, lock macaroon to specific IP address"`
-}
 
 type lnclicursesContext struct {
 	gocui           *gocui.Gui
@@ -31,7 +17,6 @@ type lnclicursesContext struct {
 	views           map[viewType]viewI
 	globalShortcuts []*keyHandle
 	theme           themeGUI
-	opts            cliOpts
 	logs            []*logEntry
 	printer         *message.Printer
 	cliMutex        *sync.Mutex
@@ -48,7 +33,7 @@ func manageError(err error) {
 }
 
 func setUpdateTicker() {
-	ticker := time.NewTicker(time.Second * time.Duration(context.opts.RefreshSec))
+	ticker := time.NewTicker(time.Second * time.Duration(getRefreshSec()))
 	go func() {
 		for range ticker.C {
 			updateData()
@@ -57,8 +42,10 @@ func setUpdateTicker() {
 }
 
 func updateData() {
-	manageError(status.updateLocalNodeInfo(&context))
-	manageError(status.updateWalletBalance(&context))
+	if getShowHeader() {
+		manageError(status.updateLocalNodeInfo(&context))
+		manageError(status.updateWalletBalance(&context))
+	}
 	switch context.activeMainView {
 	case channelListViewt:
 		manageError(status.updateChannelList(&context))
@@ -78,11 +65,6 @@ func updateData() {
 
 func main() {
 
-	if _, err := flags.Parse(&context.opts); err != nil {
-		fmt.Println(err)
-		return
-	}
-
 	status.nodes = make(map[string]lnrpc.NodeInfo)
 
 	context.printer = message.NewPrinter(language.English)
@@ -90,7 +72,10 @@ func main() {
 	context.views = make(map[viewType]viewI)
 	context.cliMutex = &sync.Mutex{}
 
-	initConfig()
+	if !initConfig() {
+		panic("Couldn't read configuration")
+	}
+
 	initTheme()
 	initGrids()
 
