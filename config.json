@@ -33,6 +33,7 @@
                 { "key": "Active", "header": "A", "width": 2 },
                 { "key": "Private", "header": "P", "width": 2 },
                 { "key": "Node", "header": "Node", "width": 0 },
+                { "key": "NodeUpdate", "header": "Node updte", "width": 18 },
                 { "key": "Capacity", "header": "Capacity", "width": 13 },
                 { "key": "Local", "header": "Local", "width": 13 },
                 { "key": "Remote", "header": "Remote", "width": 13 },
